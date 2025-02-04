@@ -44,12 +44,15 @@ class ChangedDataObjectsTask extends BuildTask
                     if ($record->hasMethod('Link')) {
                         $link = $record->CMSEditLink();
                     }
-                    $cmsEditLink ? 'Link: <a href="' . $cmsEditLink . '">✏️</a>' : '<strikethrough>✏️</strikethrough>';
-                    $link ? 'Link: <a href="' . $link . '">🔗</a>' : '<strikethrough>🔗</strikethrough>';
-                    DB::alteration_message( ' -- '.$cmsEditLink . $link . '
-                        ID: ' . $title . ',
-                        Title: ' . $title . ',
-                        LastEdited: ' . $record->LastEdited . "<br />");
+                    $cmsEditLink ? 'Link: <a href="' . $cmsEditLink . '">✏️</a>' : '<del>✏️</del>';
+                    $link ? 'Link: <a href="' . $link . '">🔗</a>' : '<del>🔗</del>';
+                    DB::alteration_message(
+                        ' -- '.$cmsEditLink . ' '.
+                        $link . ' '.
+                        'ID: ' . $title . ', '.
+                        'Title: ' . $title . ', '.
+                        'LastEdited: ' . $record->LastEdited
+                    );
                 }
                 DB::alteration_message("---");
             }
