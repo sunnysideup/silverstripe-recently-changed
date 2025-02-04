@@ -6,6 +6,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\ORM\DB;
 
 class ChangedDataObjectsTask extends BuildTask
 {
@@ -14,9 +15,9 @@ class ChangedDataObjectsTask extends BuildTask
 
     private static $segment = 'changed-data-objects';
 
-    public function run(HTTPRequest $request): void
+    public function run($request)
     {
-        $daysBackParam = $request->getVar('daysBack')?:30;
+        $daysBackParam = $request->getVar('daysBack') ?: 30;
         $daysBack = (float)$daysBackParam;
 
         echo $this->getInputForm($daysBack);
@@ -24,7 +25,7 @@ class ChangedDataObjectsTask extends BuildTask
         $timestamp = time() - ($daysBack * 86400);
         $dateBack = date('Y-m-d H:i:s', $timestamp);
 
-        DB::alteration_message( 'Using date: ' . $dateBack . "\n");
+        DB::alteration_message('Using date: ' . $dateBack . "\n");
 
         $classes = ClassInfo::subclassesFor(DataObject::class);
         foreach ($classes as $className) {
@@ -33,7 +34,7 @@ class ChangedDataObjectsTask extends BuildTask
             }
             $results = $className::get()->filter('LastEdited:GreaterThan', $dateBack);
             if ($results->exists()) {
-                DB::alteration_message( 'DataObjects of class ' . $className . ' changed since ' . $dateBack . "\n";
+                DB::alteration_message('DataObjects of class ' . $className . ' changed since ' . $dateBack);
                 foreach ($results as $record) {
                     $title = $record->getTitle();
                     $cmsEditLink = null;
@@ -47,11 +48,11 @@ class ChangedDataObjectsTask extends BuildTask
                     $cmsEditLink ? 'Link: <a href="' . $cmsEditLink . '">✏️</a>' : '<del>✏️</del>';
                     $link ? 'Link: <a href="' . $link . '">🔗</a>' : '<del>🔗</del>';
                     DB::alteration_message(
-                        ' -- '.$cmsEditLink . ' '.
-                        $link . ' '.
-                        'ID: ' . $title . ', '.
-                        'Title: ' . $title . ', '.
-                        'LastEdited: ' . $record->LastEdited
+                        ' -- ' . $cmsEditLink . ' ' .
+                            $link . ' ' .
+                            'ID: ' . $title . ', ' .
+                            'Title: ' . $title . ', ' .
+                            'LastEdited: ' . $record->LastEdited
                     );
                 }
                 DB::alteration_message("---");
@@ -67,7 +68,7 @@ class ChangedDataObjectsTask extends BuildTask
                 $fieldSpec = $schema->fieldSpec($className, 'LastEdited');
                 if ($fieldSpec) {
                     $tableName = $schema->tableName($className);
-                    DB::alteration_message( 'Table ' . $tableName . ' (from ' . $className . ') has a LastEdited column.');
+                    DB::alteration_message('Table ' . $tableName . ' (from ' . $className . ') has a LastEdited column.');
                 }
             } catch (\Exception $ex) {
                 // Ignore missing field
