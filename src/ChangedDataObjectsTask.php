@@ -37,11 +37,12 @@ class ChangedDataObjectsTask extends BuildTask
                 foreach ($results as $record) {
                     $title = $record->getTitle();
                     $cmsEditLink = null;
+                    $link = null;
                     if ($record->hasMethod('CMSEditLink')) {
                         $cmsEditLink = $record->CMSEditLink();
                     }
                     if ($record->hasMethod('Link')) {
-                        $cmsEditLink = $record->CMSEditLink();
+                        $link = $record->CMSEditLink();
                     }
                     $cmsEditLink ? 'Link: <a href="' . $cmsEditLink . '">✏️</a>' : '<strikethrough>✏️</strikethrough>';
                     $link ? 'Link: <a href="' . $link . '">🔗</a>' : '<strikethrough>🔗</strikethrough>';
