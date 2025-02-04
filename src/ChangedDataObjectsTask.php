@@ -79,7 +79,7 @@ class ChangedDataObjectsTask extends BuildTask
     {
         $html = '<form method=\'get\' action=\'\'>';
         $html .= '<label for=\'daysBack\'>Enter number of days back (e.g. 0.5, 1, 30): </label>';
-        $html .= '<input type=\'number\' step=\'0.1\' name=\'daysBack\' id=\'daysBack\' value=\'' . $defaultDaysBack . '\'>';
+        $html .= '<input type=\'number\' step=\'0.041666667\' name=\'daysBack\' id=\'daysBack\' value=\'' . $defaultDaysBack . '\'>';
         $html .= '<input type=\'submit\' value=\'Submit\'>';
         $html .= '</form>';
         return $html;
