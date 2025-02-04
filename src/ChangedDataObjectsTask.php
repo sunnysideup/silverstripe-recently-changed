@@ -10,7 +10,7 @@ use SilverStripe\ORM\DB;
 
 class ChangedDataObjectsTask extends BuildTask
 {
-    protected string $title = 'Changed DataObjects Task';
+    protected string $title = 'Changed DataObjects';
     protected string $description = 'Lists DataObjects and tables with LastEdited changed since a computed date based on days back.';
 
     private static $segment = 'changed-data-objects';
