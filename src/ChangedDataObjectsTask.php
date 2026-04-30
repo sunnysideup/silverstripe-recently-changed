@@ -2,6 +2,7 @@
 
 namespace Sunnysidep\RecentlyChanged;
 
+use Override;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DataObject;
@@ -188,6 +189,7 @@ class ChangedDataObjectsTask extends BuildTask
         return $html;
     }
 
+    #[Override]
     public function getOptions(): array
     {
         return array_merge(
